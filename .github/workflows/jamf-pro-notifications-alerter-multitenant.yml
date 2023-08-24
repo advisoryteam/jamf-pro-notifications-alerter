@@ -1,4 +1,4 @@
-name: Jamf Pro Notifications Alerter
+name: Multi-tenant Jamf Pro Notifications Alerter
 
 on:
   workflow_dispatch:
