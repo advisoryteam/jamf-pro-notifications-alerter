@@ -27,11 +27,12 @@ jobs:
           ### Define functions
           ### ------------------------------------------------------
 
+          sudo apt update
+          sudo apt install jq
+          
           # Function to parse a JSON body
           function getJSONValue() {
-            JSON="$1" osascript -l 'JavaScript' \
-            -e 'const env = $.NSProcessInfo.processInfo.environment.objectForKey("JSON").js' \
-            -e "JSON.parse(env).$2"
+              echo "$1" | jq -r ".$2"
           }
 
           ### Define variables
