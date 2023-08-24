@@ -1,11 +1,11 @@
 name: Jamf Pro Notifications Alerter
 
-# on:
-#   workflow_dispatch:
-
 on:
-  schedule:
-    - cron: '0 1 * * 1'
+  workflow_dispatch:
+
+# on:
+#   schedule:
+#     - cron: '0 1 * * 1'
 
 jobs:
   get-notifications-jamf-pro:
@@ -44,9 +44,9 @@ jobs:
 
           # Path to organization URLs directory where JSON configuration file is copied
           ### Comment this out for testing
-          # managedOrganizationsDir="./Jamf-Management/Managed Organizations"
+          managedOrganizationsDir="./Jamf-Management/Managed Organizations"
           ### Uncomment this for testing
-          managedOrganizationsDir="./Jamf-Management/Managed Organizations/Test"
+          # managedOrganizationsDir="./Jamf-Management/Managed Organizations/Test"
 
           # Get contents of JSON configuration file
           for dir in "$managedOrganizationsDir"; do
@@ -63,7 +63,7 @@ jobs:
           for (( i=0; i<$size; i++)); do
             orgName="$( getJSONValue "${managedOrganizationsJSON}" "organizations[$i].organizationName" )"
             url="$( getJSONValue "${managedOrganizationsJSON}" "organizations[$i].url" )"
-            bash scripts/jamf-pro-notifications-alerter.sh --url "${url}" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
+            bash scripts/jamf-pro-notifications-alerter.sh --url "${url}" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.ENGINEERING_CHANGELOG_SLACK_WEBHOOK }}
           done
 
           ### End script
