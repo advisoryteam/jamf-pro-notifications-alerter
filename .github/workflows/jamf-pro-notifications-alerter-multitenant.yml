@@ -1,10 +1,14 @@
 name: Jamf Pro Notifications Alerter
 
+# on:
+#   workflow_dispatch:
+
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 1 * * 1'
 
 jobs:
-  get-notifications-jamf-pro-1:
+  get-notifications-jamf-pro:
     runs-on: ubuntu-latest
     
     steps:
