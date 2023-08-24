@@ -50,7 +50,7 @@ jobs:
           done
 
           # Get the size of the JSON array to create a for loop to iterate through the JSON array
-          size=$(getJSONValue "${managedOrganizationsJSON}" "organizations.length")
+          size=$(getJSONValue "${managedOrganizationsJSON}" ".organizations | length")
 
           ### Begin script
           ### ------------------------------------------------------
