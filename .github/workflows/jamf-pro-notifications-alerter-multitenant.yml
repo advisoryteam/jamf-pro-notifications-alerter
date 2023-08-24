@@ -60,7 +60,7 @@ jobs:
 
           # Iterate through managed Jamf instances and run notifier script
           for (( i=0; i<$size; i++)); do
-            #bash scripts/jamf-pro-notifications-alerter.sh --url "${url}" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
+            bash scripts/jamf-pro-notifications-alerter.sh --url "${url}" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
           done
 
           ### End script
