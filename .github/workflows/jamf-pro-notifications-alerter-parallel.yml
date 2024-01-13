@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  get-notifications-jamf-pro-1:
+  advisory-dev:
     runs-on: ubuntu-latest
     
     steps:
@@ -18,10 +18,30 @@ jobs:
         run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorydeva.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
         continue-on-error: true
 
-      - name: Advisory Production
+  advisory-prod:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Set up JQ
+        run: sudo apt-get install jq
+    
+      - name: Advisory prod
         run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisory.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
         continue-on-error: true
+
+  advisory-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Set up JQ
+        run: sudo apt-get install jq
     
-      # - name: Advisory Test
-      #   run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorytest.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.ENGINEERING_CHANGELOG_SLACK_WEBHOOK }}
-        
+      - name: Advisory Test
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorytest.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
+        continue-on-error: true
