@@ -43,4 +43,4 @@ jobs:
         run: sudo apt-get install jq
     
       - name: Advisory Test
-        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorytest.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorytesta.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
