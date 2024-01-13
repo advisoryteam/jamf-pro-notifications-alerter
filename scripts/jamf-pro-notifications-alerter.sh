@@ -178,8 +178,9 @@ if [[ "${#notificationStrings[@]}" -gt "0" ]]; then
 	exit "$result"
 else
 	message="No Jamf Pro Notifications."
-	echo "$message"
 	
+	echo "$message"
+
 	notificationString="<${jamfProURL}|${jamfProDomain}>: $message"
 	slackPayload="payload={\"text\":\"$notificationString\"}"
 	output=$(curl -s -d "${slackPayload}" "$slackWebhook")
