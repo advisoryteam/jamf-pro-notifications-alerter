@@ -18,8 +18,8 @@ jobs:
         run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorydev.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
 
       - name: Advisory Production
-        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisory.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorya.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
     
-      - name: Advisory Test
-        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorytest.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.ENGINEERING_CHANGELOG_SLACK_WEBHOOK }}
+      # - name: Advisory Test
+      #   run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorytest.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.ENGINEERING_CHANGELOG_SLACK_WEBHOOK }}
         
