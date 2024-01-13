@@ -6,7 +6,6 @@ on:
 jobs:
   get-notifications-jamf-pro-1:
     runs-on: ubuntu-latest
-    continue-on-error: true
     
     steps:
       - name: Checkout Repository
@@ -17,9 +16,11 @@ jobs:
 
       - name: Advisory Dev
         run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorydeva.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
+        continue-on-error: true
 
       - name: Advisory Production
         run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisory.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
+        continue-on-error: true
     
       # - name: Advisory Test
       #   run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorytest.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.ENGINEERING_CHANGELOG_SLACK_WEBHOOK }}
