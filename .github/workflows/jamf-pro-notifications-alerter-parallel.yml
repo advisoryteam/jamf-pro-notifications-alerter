@@ -27,7 +27,7 @@ jobs:
       - name: Set up JQ
         run: sudo apt-get install jq
     
-      - name: Advisory prod
+      - name: Advisory Prod
         run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisory.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
 
   advisory-test:
