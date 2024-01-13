@@ -182,6 +182,7 @@ else
 	notificationString="<${jamfProURL}|${jamfProDomain}>: $notificationType"
 	slackPayload="payload={\"text\":\"$notificationString\"}"
 	output=$(curl -s -d "${slackPayload}" "$slackWebhook")
+	echo "$output"
 fi
 
 exit 0
