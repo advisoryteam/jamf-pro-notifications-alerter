@@ -16,7 +16,6 @@ jobs:
 
       - name: Advisory Dev
         run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorydeva.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
-        continue-on-error: true
 
   advisory-prod:
     runs-on: ubuntu-latest
@@ -30,7 +29,6 @@ jobs:
     
       - name: Advisory prod
         run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisory.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
-        continue-on-error: true
 
   advisory-test:
     runs-on: ubuntu-latest
@@ -44,4 +42,3 @@ jobs:
     
       - name: Advisory Test
         run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorytest.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
-        continue-on-error: true
