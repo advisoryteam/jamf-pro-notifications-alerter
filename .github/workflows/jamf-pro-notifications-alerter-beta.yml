@@ -1,0 +1,18 @@
+name: Jamf Pro Notifications Alerter
+
+on:
+  workflow_dispatch:
+
+jobs:
+  get-notifications-jamf-pro-1:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Advisory Production
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisory.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Advisory Test
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorytest.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.SLACK_WEBHOOK }}
+    
