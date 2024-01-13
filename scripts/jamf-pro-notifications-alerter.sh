@@ -29,21 +29,19 @@ trap "finish" EXIT
 function get_jamf_pro_api_token() {
 	local healthCheckHttpCode validityHttpCode
 
-	returnCode=0
-
 	# Make sure we can contact the Jamf Pro server
 	healthCheckHttpCode=$(curl -s "${jamfProURL}/healthCheck.html" -X GET -o /dev/null -w "%{http_code}")
-	[[ "$healthCheckHttpCode" != "200" ]] && echo "Unable to contact the Jamf Pro server; exiting" && returnCode=4
+	[[ "$healthCheckHttpCode" != "200" ]] && echo "Unable to contact the Jamf Pro server; exiting" && exit 4
 
 	# Attempt to obtain the token
 	apiToken=$(curl -s -u "$apiUser:$apiPass" "${jamfProURL}/api/v1/auth/token" -X POST 2>/dev/null | jq -r '.token | select(.!=null)')
-	[[ -z "$apiToken" ]] && echo "Unable to obtain a Jamf Pro API Bearer Token; exiting" && returnCode=5
+	[[ -z "$apiToken" ]] && echo "Unable to obtain a Jamf Pro API Bearer Token; exiting" && exit 5
 
 	# Validate the token
 	validityHttpCode=$(curl -s -H "Authorization: Bearer $apiToken" "${jamfProURL}/api/v1/auth" -X GET -o /dev/null -w "%{http_code}")
-	[[ "$validityHttpCode" != "200" ]] && returnCode=6
+	[[ "$validityHttpCode" != "200" ]] && exit 6
 
-	return $returnCode
+	return
 }
 
 show_help() {
@@ -133,36 +131,6 @@ done
 # Get our Jamf Pro API Bearer Token
 get_jamf_pro_api_token
 
-returnCode=$?
-
-if [[ $returnCode != 0 ]]; then
-
-	case $returnCode in
-	4)
-		message="Unable to contact the Jamf Pro server; exiting"
-		echo "$message"
-		;;
-	5)
-		message="Unable to obtain a Jamf Pro API Bearer Token; exiting"
-		echo "$message"
-		;;
-	6)
-		message="Unable to validate the Jamf Pro API Bearer Token; exiting"
-		echo "$message"
-		;;
-	*)
-		message="An unknown error occured; exiting"
-		echo "$message"
-		;;
-	esac
-
-	notificationString="<${jamfProURL}|${jamfProDomain}>: $message"
-	slackPayload="payload={\"text\":\"$notificationString\"}"
-	output=$(curl -s -d "${slackPayload}" "$slackWebhook")
-	echo "$output"
-
-fi
-
 # Returns notifications from Jamf Pro in JSON
 jamfProNotifications=$(curl -s -H "Authorization: Bearer ${apiToken}" -H "Accept: application/json" \
 	"${jamfProURL}/api/v1/notifications" -X GET)
@@ -209,9 +177,10 @@ if [[ "${#notificationStrings[@]}" -gt "0" ]]; then
 
 	exit "$result"
 else
-	notificationType="No Jamf Pro Notifications."
-	echo "No Jamf Pro Notifications."
-	notificationString="<${jamfProURL}|${jamfProDomain}>: $notificationType"
+	message="No Jamf Pro Notifications."
+	echo "$message"
+	
+	notificationString="<${jamfProURL}|${jamfProDomain}>: $message"
 	slackPayload="payload={\"text\":\"$notificationString\"}"
 	output=$(curl -s -d "${slackPayload}" "$slackWebhook")
 	echo "$output"
