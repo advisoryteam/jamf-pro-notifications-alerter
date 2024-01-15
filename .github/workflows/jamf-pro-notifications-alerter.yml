@@ -240,16 +240,6 @@ jobs:
       - name: Glashow MD
         run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://glashow.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
 
-  Goodrich-Company:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-      - name: Set up JQ
-        run: sudo apt-get install jq
-      - name: Goodrich Company
-        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://goodrichstudio.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
-
   Growthential:
     runs-on: ubuntu-latest
     steps:
