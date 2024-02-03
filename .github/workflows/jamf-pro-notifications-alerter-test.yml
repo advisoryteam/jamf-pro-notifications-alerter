@@ -6,41 +6,41 @@ on:
 #     - cron: '00 12 * * 1'
 
 jobs:
-  advisory-dev:
+  generate-matrix:
     runs-on: ubuntu-latest
-    
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - name: Checkout Repository
+      - name: Check out code
         uses: actions/checkout@v3
-      
+
       - name: Set up JQ
         run: sudo apt-get install jq
-
-      - name: Advisory Dev
-        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorydev.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
-
-  advisory-prod:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
       
-      - name: Set up JQ
-        run: sudo apt-get install jq
-    
-      - name: Advisory Prod
-        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisory.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+      - name: Set Matrix
+        id: set-matrix
+        run: |
 
-  advisory-test:
+          JSON_FILE='./managed-organizations/managed-organizations.json'
+          json_body=$(cat "$JSON_FILE")
+          #
+          # Use jq to extract the "url" values and format as a JSON array
+          organizations_json=$(echo "$json_body" | jq -c '{urls: [.organizations[].url]}')
+          
+          # Now, 'organizations_json' is a JSON-formatted string of the URLs
+          echo "$organizations_json"
+          
+          # Set the output for the matrix
+          echo "::set-output name=matrix::$organizations_json"
+    
+  run-script:
+    needs: generate-matrix
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
     steps:
-      - name: Checkout Repository
+      - name: Check out code
         uses: actions/checkout@v3
-      
-      - name: Set up JQ
-        run: sudo apt-get install jq
-    
-      - name: Advisory Test
-        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorytest.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+      - name: Get Notifications
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url ${{ matrix.urls }} --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }}
