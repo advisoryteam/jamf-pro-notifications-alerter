@@ -5,42 +5,40 @@ on:
 #   schedule:
 #     - cron: '00 12 * * 1'
 
-jobs:
+jobs:  # Generate the matrix
   generate-matrix:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - name: Checkout code
+      - name: Check out code
         uses: actions/checkout@v3
-      
-      # STEP 1-b: Checkout code from Jamf-Management repository to access central org URL list
-      - name: Checkout code from Jamf-Management repository
+      - name: Check out code from Jamf-Management repository
         uses: actions/checkout@v3
         with:
           repository: advisoryteam/Jamf-Management
           ref: main
           path: ./Jamf-Management
-          token: ${{ secrets.ACCESS_TOKEN_MAIN }}
-
-      - name: Set up JQ
-        run: sudo apt-get install jq
-      
-      - name: Set Matrix
+          token: ${{ secrets.ACCESS_TOKEN_GITHUB_MAIN }}
+        # Configure settings for the matrix
+      - name: Set matrix
         id: set-matrix
         run: |
 
-          JSON_FILE='./Jamf-Management/Managed Organizations/Test/managed-organizations.json'
-          json_body=$(cat "$JSON_FILE")
+          # Path to JSON-formatted managed orgs list in Jamf-Management repository
+          MANAGED_ORGS_JSON_FILE_PATH='./Jamf-Management/Managed Organizations/Test/managed-organizations.json'
+
+          # JSON-formatted managed orgs list contents
+          MANAGED_ORGS_JSON_FILE_CONTENTS=$(cat "$MANAGED_ORGS_JSON_FILE_PATH")
           
           # Use jq to extract the "url" values and format as a JSON array
-          organizations_json=$(echo "$json_body" | jq -c '{urls: [.organizations[].url]}')
+          MANAGED_ORGS_JAMF_URLS=$(echo "${MANAGED_ORGS_JSON_FILE_CONTENTS}" | jq -c '{urls: [.organizations[].url]}')
           
-          # Now, 'organizations_json' is a JSON-formatted string of the URLs
-          echo "$organizations_json"
-          
+          # Now, 'MANAGED_ORGS_JAMF_URLS' is a JSON-formatted string of the URLs
+          echo "${MANAGED_ORGS_JAMF_URLS}"
+
           # Set the output for the matrix
-          echo "::set-output name=matrix::$organizations_json"
+          echo "::set-output name=matrix::$MANAGED_ORGS_JAMF_URLS"
     
   run-script:
     needs: generate-matrix
@@ -53,5 +51,3 @@ jobs:
 
       - name: Get Notifications
         run: bash scripts/jamf-pro-notifications-alerter.sh --url ${{ matrix.urls }} --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
-
-        
