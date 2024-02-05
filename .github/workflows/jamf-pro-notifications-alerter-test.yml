@@ -19,7 +19,7 @@ jobs:  # Generate the matrix
           repository: advisoryteam/Jamf-Management
           ref: main
           path: ./Jamf-Management
-          token: ${{ secrets.ACCESS_TOKEN_GITHUB_MAIN }}
+          token: ${{ secrets.ACCESS_TOKEN_MAIN }}
         # Configure settings for the matrix
       - name: Set matrix
         id: set-matrix
