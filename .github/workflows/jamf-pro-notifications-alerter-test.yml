@@ -30,7 +30,7 @@ jobs:
         id: set-matrix
         run: |
 
-          JSON_FILE='./Jamf-Management/Managed Organizations/managed-organizations.json'
+          JSON_FILE='./Jamf-Management/Managed Organizations/Test/managed-organizations.json'
           json_body=$(cat "$JSON_FILE")
           
           # Use jq to extract the "url" values and format as a JSON array
@@ -52,6 +52,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Get Notifications
-        run: bash scripts/jamf-pro-notifications-alerter.sh --url ${{ matrix.urls }} --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }}
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url ${{ matrix.urls }} --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
 
         
