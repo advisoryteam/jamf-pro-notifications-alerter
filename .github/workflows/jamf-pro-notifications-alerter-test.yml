@@ -26,7 +26,7 @@ jobs:  # Generate the matrix
         run: |
 
           # Path to JSON-formatted managed orgs list in Jamf-Management repository
-          MANAGED_ORGS_JSON_FILE_PATH='./Jamf-Management/Managed Organizations/managed-organizations.json'
+          MANAGED_ORGS_JSON_FILE_PATH='./Jamf-Management/Managed Organizations/Test/managed-organizations.json'
 
           # JSON-formatted managed orgs list contents
           MANAGED_ORGS_JSON_FILE_CONTENTS=$(cat "$MANAGED_ORGS_JSON_FILE_PATH")
