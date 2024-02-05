@@ -1,0 +1,431 @@
+name: Jamf Pro Notifications Alerter
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '00 12 * * 1'
+
+jobs:
+
+  Advisory:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3 
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Advisory Prod
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisory.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Advisory-Dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Advisory Dev
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorydev.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Advisory-Test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Set up JQ
+        run: sudo apt-get install jq
+    
+      - name: Advisory Test
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://advisorytest.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+
+  Altana:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Set up JQ
+        run: sudo apt-get install jq
+    
+      - name: Altana
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://altana.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+
+  Alto-IRA:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Set up JQ
+        run: sudo apt-get install jq
+    
+      - name: Alto IRA
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://altosolutions.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+
+  Banyan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Set up JQ
+        run: sudo apt-get install jq
+    
+      - name: Banyan Global
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://bgfba.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+
+  Barrel:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Set up JQ
+        run: sudo apt-get install jq
+    
+      - name: Barrel NY
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://barrelny.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+
+  Climate-Nexus:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Set up JQ
+        run: sudo apt-get install jq
+    
+      - name: Climate Nexus
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://climatenexus.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+ 
+  Confluence-Philanthropy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        
+      - name: Set up JQ
+        run: sudo apt-get install jq
+        
+      - name: Confluence Philanthropy
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://confluencephil.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Consumer-Dynamics:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up JQ
+        run: sudo apt-get install jq
+
+      - name: Consumer Dynamics
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://consumerdynamics.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+
+  Crossbeam:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up JQ
+        run: sudo apt-get install jq
+
+      - name: Croassbeam
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://crossbeaminc.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  CyberRisk-Alliance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: CyberRisk Alliance
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://cyberrisk.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Dance-NYC:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Dance NYC
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://dancenyc.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Earth-Alliance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Earth Alliance
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://earthallianceorg.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Endometriosis-Foundation-of-America:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Endometriosis Foundation of America
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://endofound.jamfcloud.com/" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Flowcode:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Flowcode
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://flowcode.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Fort-Health:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Fort Health
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://forthealthinc.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Garden-Antiques:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Garden Antiques
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://gardenantiques.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Gas-Leaks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Gas Leaks
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://gasleaks.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Glashow-MD:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Glashow MD
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://glashow.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Growthential:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Growthential
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://growthential.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Headway:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Headway
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://headway.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Janson-Scuro:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Janson Scuro
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://jansonscuro.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Karbon:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Karbon
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://karbon.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Nathan-Cummings-Foundation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Nathan Cummings Foundation
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://ncf.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Park-East-Gynecology:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Park East Gynecology
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://drseckin.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Peach-and-Lily:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Peach and Lily
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://peachandlily.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Pride-Live:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Pride Live
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://pridelive.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  SEA-Market:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: SEA Market
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://safg.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Splash:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Splash
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://splashthat.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Skopenow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Skopenow
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://skopenow.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  STAMP-Event-Management:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: STAMP Event Management
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://stampeventco.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  The-Real-Deal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: The Real Deal
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://trd.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  The-Segal-Group:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: The Segal Group
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://benz.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Thunder11:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Thunder11
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://thunder11.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Tribeca-Veterinary-Wellness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Tribeca Veterinary Wellness
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://tribecavet.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Together-Senior-Health:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Together Senior Health
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://togetherseniorhealth.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Wallaroo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Wallaroo
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://wallaroo.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  Wondersauce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up JQ
+        run: sudo apt-get install jq
+      - name: Wondersauce
+        run: bash scripts/jamf-pro-notifications-alerter.sh --url "https://wondersauce.jamfcloud.com" --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
