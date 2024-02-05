@@ -1,4 +1,4 @@
-name: Test - Jamf Pro Notifications Alerter
+name: Prod - Jamf Pro Notifications Alerter
 
 on:
   workflow_dispatch:
