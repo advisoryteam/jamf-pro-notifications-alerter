@@ -44,6 +44,17 @@ function get_jamf_pro_api_token() {
 	return
 }
 
+random_sleep_and_sleep_computer() {
+	# Generate a random number between 1 and 15
+	delay=$((RANDOM % 15 + 1))
+	
+	echo "Sleeping for $delay seconds ..."
+	
+	# Sleep for the random duration
+	sleep $delay
+	
+}
+
 show_help() {
 	local exitCode="$1"
 
@@ -127,6 +138,9 @@ done
 [[ -z "$apiUser" ]] && echo "Error: API User is not set." && show_help 2
 [[ -z "$apiPass" ]] && echo "Error: API Pass is not set." && show_help 2
 [[ -z "$slackWebhook" ]] && echo "Error: Slack Webhook is not set." && show_help 2
+
+# Random delay for jobs
+random_sleep_and_sleep_computer
 
 # Get our Jamf Pro API Bearer Token
 get_jamf_pro_api_token
