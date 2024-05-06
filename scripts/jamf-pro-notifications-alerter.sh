@@ -181,6 +181,8 @@ if [[ "${#notificationStrings[@]}" -gt "0" ]]; then
 
 	echo "${notificationStringsDelimited[*]}"
 
+	sleep 5
+
 	output=$(curl -s -d "${slackPayload}" "$slackWebhook")
 	result="$?"
 
@@ -195,10 +197,10 @@ else
 	
 	echo "$message"
 
-	notificationString="<${jamfProURL}|${jamfProDomain}>: $message"
-	slackPayload="payload={\"text\":\"$notificationString\"}"
-	output=$(curl -s -d "${slackPayload}" "$slackWebhook")
-	echo "$output"
+	# notificationString="<${jamfProURL}|${jamfProDomain}>: $message"
+	# slackPayload="payload={\"text\":\"$notificationString\"}"
+	# output=$(curl -s -d "${slackPayload}" "$slackWebhook")
+	# echo "$output"
 fi
 
 exit 0
