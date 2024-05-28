@@ -178,7 +178,7 @@ done
 if [[ "${#notificationStrings[@]}" -gt "0" ]]; then
 	#notificationStringsDelimited=$(printf '%s\n' "${notificationStrings[@]}")
 	notificationStringsDelimited=$(printf '%s\n' "${notificationStrings[@]}" | sed 's/&/%26/g')
-	#slackPayload="payload={\"text\":\"$notificationStringsDelimited\"}"
+	slackPayload="payload={\"text\":\"$notificationStringsDelimited\"}"
 
 	echo "${notificationStringsDelimited[*]}"
 
