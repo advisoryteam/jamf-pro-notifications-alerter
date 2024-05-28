@@ -176,7 +176,6 @@ done
 
 # If there are any notifications, print to console and post them to Slack
 if [[ "${#notificationStrings[@]}" -gt "0" ]]; then
-	#notificationStringsDelimited=$(printf '%s\n' "${notificationStrings[@]}")
 	notificationStringsDelimited=$(printf '%s\n' "${notificationStrings[@]}" | sed 's/&/%26/g')
 	slackPayload="payload={\"text\":\"$notificationStringsDelimited\"}"
 
@@ -188,6 +187,12 @@ if [[ "${#notificationStrings[@]}" -gt "0" ]]; then
 	if [[ "$result" != "0" ]]; then
 		echo "Error sending Slack notification; detailed error below."
 		echo "$output"
+	fi
+
+	# Check for invalid payload for error notification
+	# Error 99 = invalid_payload
+	if  [[ "$output" == "invalid_payload" ]]; then
+		result="99"
 	fi
 
 	exit "$result"
