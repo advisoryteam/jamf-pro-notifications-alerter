@@ -156,7 +156,8 @@ notificationCount=$(echo "$jamfProNotifications" | jq length)
 while [[ "$index" -lt "$notificationCount" ]]; do
 
 	# Get type of notification
-	notificationType=$(echo "$jamfProNotifications" | jq -r ".[$index].type")
+	#notificationType=$(echo "$jamfProNotifications" | jq -r ".[$index].type")
+	notificationType=$(echo "$jamfProNotifications" | jq -r ".[$index].type%26")
 
 	# Verify notification is on approved alert list
 	if grep -v '^#' "$selectedNotificationsFile" | grep -qw "$notificationType"; then
@@ -177,11 +178,9 @@ done
 # If there are any notifications, print to console and post them to Slack
 if [[ "${#notificationStrings[@]}" -gt "0" ]]; then
 	notificationStringsDelimited=$(printf '%s\n' "${notificationStrings[@]}")
-	slackPayload="payload={\"text\":\"$notificationStringsDelimited\"}"
+	#slackPayload="payload={\"text\":\"$notificationStringsDelimited\"}"
 
 	echo "${notificationStringsDelimited[*]}"
-
-	sleep 5
 
 	output=$(curl -s -d "${slackPayload}" "$slackWebhook")
 	result="$?"
