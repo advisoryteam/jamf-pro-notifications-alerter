@@ -2,8 +2,8 @@ name: Prod - Jamf Pro Notifications Alerter
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: '00 12 * * 1'
+  schedule:
+    - cron: '00 12 * * 1'
 
 jobs:  # Generate the matrix
   generate-matrix:
