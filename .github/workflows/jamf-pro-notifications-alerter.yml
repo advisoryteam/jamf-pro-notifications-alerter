@@ -3,7 +3,9 @@ name: Prod - Jamf Pro Notifications Alerter
 on:
   workflow_dispatch:
   schedule:
-    - cron: '00 12 * * 1'
+    - cron: '0 13 * * 1'  # Runs every Monday at 1 PM UTC (8 AM EST)
+    - cron: '0 13 * * 4'  # Runs every Thursday at 1 PM UTC (8 AM EST)
+
 
 jobs:  # Generate the matrix
   generate-matrix:
