@@ -9,7 +9,7 @@ on:
 
 jobs:  # Generate the matrix
   generate-matrix:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -44,7 +44,7 @@ jobs:  # Generate the matrix
     
   run-script:
     needs: generate-matrix
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     strategy:
       matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
     steps:
