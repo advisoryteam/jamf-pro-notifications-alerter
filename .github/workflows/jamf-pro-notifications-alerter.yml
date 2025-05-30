@@ -14,9 +14,9 @@ jobs:  # Generate the matrix
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Check out code from Jamf-Management repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: advisoryteam/Jamf-Management
           ref: main
@@ -44,12 +44,12 @@ jobs:  # Generate the matrix
     
   run-script:
     needs: generate-matrix
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get Notifications
         run: bash scripts/jamf-pro-notifications-alerter.sh --url ${{ matrix.urls }} --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
