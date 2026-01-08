@@ -1,12 +1,12 @@
 {
     "organizations": [
         {
-            "organizationName": "Advisory Solutions",
+            "organizationName": "Advisory Solutions - Test",
             "url": "https://advisorytest.jamfcloud.com"
         },
         {
-            "organizationName": "Advisory Solutions",
-            "url": "https://advisorytest.jamfcloud.com"
+            "organizationName": "Advisory Solutions - Dev",
+            "url": "https://advisorydev.jamfcloud.com"
         }
     ]
 }
