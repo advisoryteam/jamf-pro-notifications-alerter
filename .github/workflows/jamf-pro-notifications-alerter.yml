@@ -1,4 +1,4 @@
-name: Prod - Jamf Pro Notifications Alerter
+name: Production - Jamf Pro Notifications Alerter
 
 on:
   workflow_dispatch:
