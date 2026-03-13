@@ -1,12 +1,9 @@
 name: Prod - Jamf Pro Notifications Alerter
-
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 13 * * 1'  # Runs every Monday at 1 PM UTC (8 AM EST)
+    - cron: '0 13 * * 1' # Runs every Monday at 1 PM UTC (8 AM EST)
     - cron: '0 13 * * 4'  # Runs every Thursday at 1 PM UTC (8 AM EST)
-
-
 jobs:  # Generate the matrix
   generate-matrix:
     runs-on: ubuntu-latest
@@ -26,10 +23,8 @@ jobs:  # Generate the matrix
       - name: Set matrix
         id: set-matrix
         run: |
-
           # Path to JSON-formatted managed orgs list in Jamf-Management repository
           MANAGED_ORGS_JSON_FILE_PATH='./Jamf-Management/Managed Organizations/managed-organizations.json'
-
           # JSON-formatted managed orgs list contents
           MANAGED_ORGS_JSON_FILE_CONTENTS=$(cat "$MANAGED_ORGS_JSON_FILE_PATH")
           
@@ -38,9 +33,8 @@ jobs:  # Generate the matrix
           
           # Now, 'MANAGED_ORGS_JAMF_URLS' is a JSON-formatted string of the URLs
           echo "${MANAGED_ORGS_JAMF_URLS}"
-
           # Set the output for the matrix
-          echo "::set-output name=matrix::$MANAGED_ORGS_JAMF_URLS"
+          echo "matrix=$MANAGED_ORGS_JAMF_URLS" >> "$GITHUB_OUTPUT"
     
   run-script:
     needs: generate-matrix
@@ -51,6 +45,5 @@ jobs:  # Generate the matrix
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Get Notifications
         run: bash scripts/jamf-pro-notifications-alerter.sh --url ${{ matrix.urls }} --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
