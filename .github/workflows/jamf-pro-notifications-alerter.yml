@@ -47,3 +47,41 @@ jobs:  # Generate the matrix
         uses: actions/checkout@v4
       - name: Get Notifications
         run: bash scripts/jamf-pro-notifications-alerter.sh --url ${{ matrix.urls }} --username ${{ secrets.API_USER }} --password ${{ secrets.API_PASS }} --slack-webhook ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+
+  notify-slack:
+    needs: run-script
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack notification
+        env:
+          SLACK_WEBHOOK: ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+        run: |
+          if [ "${{ needs.run-script.result }}" == "success" ]; then
+            EMOJI=":white_check_mark:"
+            STATUS="succeeded"
+            COLOR="#36a64f"
+          elif [ "${{ needs.run-script.result }}" == "failure" ]; then
+            EMOJI=":x:"
+            STATUS="failed"
+            COLOR="#dc3545"
+          else
+            EMOJI=":warning:"
+            STATUS="${{ needs.run-script.result }}"
+            COLOR="#ffc107"
+          fi
+
+          curl -X POST "$SLACK_WEBHOOK" \
+            -H 'Content-type: application/json' \
+            --data "{
+              \"attachments\": [{
+                \"color\": \"${COLOR}\",
+                \"blocks\": [{
+                  \"type\": \"section\",
+                  \"text\": {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"${EMOJI} *Jamf Pro Notifications Alerter* ${STATUS}\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View workflow run>\"
+                  }
+                }]
+              }]
+            }"
