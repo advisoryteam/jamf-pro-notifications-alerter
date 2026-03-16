@@ -53,35 +53,62 @@ jobs:  # Generate the matrix
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - name: Send Slack notification
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        run: |
-          if [ "${{ needs.run-script.result }}" == "success" ]; then
-            EMOJI=":white_check_mark:"
-            STATUS="succeeded"
-            COLOR="#36a64f"
-          elif [ "${{ needs.run-script.result }}" == "failure" ]; then
-            EMOJI=":x:"
-            STATUS="failed"
-            COLOR="#dc3545"
-          else
-            EMOJI=":warning:"
-            STATUS="${{ needs.run-script.result }}"
-            COLOR="#ffc107"
-          fi
-
-          curl -X POST "$SLACK_WEBHOOK" \
-            -H 'Content-type: application/json' \
-            --data "{
-              \"attachments\": [{
-                \"color\": \"${COLOR}\",
-                \"blocks\": [{
-                  \"type\": \"section\",
-                  \"text\": {
-                    \"type\": \"mrkdwn\",
-                    \"text\": \"${EMOJI} *Jamf Pro Notifications Alerter* ${STATUS}\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View workflow run>\"
+      - name: Send notification to Slack
+        uses: slackapi/slack-github-action@v2.1.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*GitHub Action ${{ needs.run-script.result == 'success' && 'Completed' || 'Failed' }}* ${{ needs.run-script.result == 'success' && ':white_check_mark:' || ':x:' }}"
                   }
-                }]
-              }]
-            }"
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Repository:*\n${{ github.repository }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Workflow:*\n${{ github.workflow }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Initiated by:*\n${{ github.actor }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Event:*\n${{ github.event_name }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Status:*\n${{ needs.run-script.result }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow Run :eyes:>"
+                  }
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "plain_text",
+                      "text": "Sent via GitHub Actions • ${{ github.run_number }}",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
