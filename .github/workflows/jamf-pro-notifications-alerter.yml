@@ -55,7 +55,7 @@ jobs:  # Generate the matrix
     steps:
       - name: Send Slack notification
         env:
-          SLACK_WEBHOOK: ${{ secrets.JAMF_SERVER_NOTIFS_SLACK_WEBHOOK }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         run: |
           if [ "${{ needs.run-script.result }}" == "success" ]; then
             EMOJI=":white_check_mark:"
